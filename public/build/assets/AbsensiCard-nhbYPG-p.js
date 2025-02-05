@@ -1,0 +1,6 @@
+import{j as e,h as a}from"./app-CiWKBCyD.js";import{B as c}from"./badge-qjGiZVyi.js";import{C as t,c as o,d as i,a as l}from"./card-C-ox2iht.js";import{L as r}from"./label-CkglQJx4.js";import{c as d}from"./createLucideIcon-C_pHTqs_.js";import"./index-DAHdB36t.js";import"./index-DaICLFfZ.js";/**
+ * @license lucide-react v0.473.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const m=[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["polyline",{points:"12 6 12 12 16 14",key:"68esgv"}]],n=d("Clock",m),k=({absensi:s})=>e.jsxs(t,{className:"bg-background",children:[e.jsxs(o,{className:"flex flex-row items-start justify-between",children:[e.jsxs(i,{className:"flex flex-row items-center gap-2 text-lg",children:[e.jsx(n,{}),a(s.tanggal).format("DD MMMM YYYY")]}),e.jsx(c,{variant:"secondary",children:"Terlambat"})]}),e.jsx(l,{children:e.jsxs("div",{className:"grid grid-cols-2 gap-4",children:[e.jsxs("div",{children:[e.jsx(r,{className:"font-bold opacity-50",children:"Check In Time"}),e.jsx("div",{className:"text-xl",children:a(s.checkin).format("HH:mm")})]}),e.jsxs("div",{children:[e.jsx(r,{className:"font-bold opacity-50",children:"Check out Time"}),e.jsx("div",{className:"text-xl",children:a(s.checkout).format("HH:mm")})]})]})})]});export{k as default};
