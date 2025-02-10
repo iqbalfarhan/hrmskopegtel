@@ -1,5 +1,7 @@
+import TableActions from '@/components/app/table-actions';
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -13,27 +15,43 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { getInitials } from '@/lib/utils';
 import { Perusahaan } from '@/types/perusahaan';
 import { Link } from '@inertiajs/react';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import { EllipsisVertical, ExternalLink } from 'lucide-react';
 import { FC } from 'react';
 import CreatePerusahaan from './Pertials/CreatePerusahaan';
 import FilterPerusahaan from './Pertials/FilterPerusahaan';
 
 type PerusahaanIndexProps = {
   perusahaans: Perusahaan[];
+  permissions: {
+    canCreatePerusahaan: boolean;
+    canUpdatePerusahaan: boolean;
+    canDeletePerusahaan: boolean;
+  };
 };
 
-const PerusahaanIndex: FC<PerusahaanIndexProps> = ({ perusahaans }) => {
+const PerusahaanIndex: FC<PerusahaanIndexProps> = ({
+  perusahaans,
+  permissions,
+}) => {
+  const { canCreatePerusahaan, canUpdatePerusahaan, canDeletePerusahaan } =
+    permissions;
   return (
     <Authenticated
       header={'Daftar perusahaan'}
       actions={
         <>
-          <CreatePerusahaan />
+          {canCreatePerusahaan && <CreatePerusahaan />}
           <FilterPerusahaan />
         </>
       }
@@ -48,12 +66,12 @@ const PerusahaanIndex: FC<PerusahaanIndexProps> = ({ perusahaans }) => {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
-                    <Avatar>
+                    <Avatar className="size-8 rounded-lg">
                       <AvatarFallback>
                         {getInitials(perusahaan.name)}
                       </AvatarFallback>
                       <AvatarImage
-                        src={perusahaan.logo}
+                        src={perusahaan.photo}
                         alt={perusahaan.name}
                       />
                     </Avatar>
@@ -74,41 +92,71 @@ const PerusahaanIndex: FC<PerusahaanIndexProps> = ({ perusahaans }) => {
                 <TableCell>
                   <Badge>{perusahaan.users?.length} karyawan</Badge>
                 </TableCell>
-                <TableCell className="flex items-end justify-end gap-2">
-                  <Button variant={'secondary'} asChild>
-                    <Link href={route('perusahaan.show', perusahaan.id)}>
-                      View Perusahaan
-                      <ExternalLink />
-                    </Link>
-                  </Button>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button size={'icon'} variant={'ghost'}>
-                        <Trash2 />
+                <TableCell>
+                  <TableActions>
+                    {canUpdatePerusahaan && (
+                      <Button variant={'secondary'} asChild>
+                        <Link href={route('perusahaan.show', perusahaan.id)}>
+                          View Perusahaan
+                          <ExternalLink />
+                        </Link>
                       </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Delete perusahaan</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Anda yakin ingin menghapus perusahaan ini?
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                          <Button variant={'outline'}>Cancel</Button>
-                        </AlertDialogCancel>
-                        <Button variant={'destructive'} asChild>
-                          <Link
-                            href={route('perusahaan.destroy', perusahaan.id)}
-                            method="delete"
-                          >
-                            Delete
-                          </Link>
+                    )}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button size={'icon'} variant={'ghost'}>
+                          <EllipsisVertical />
                         </Button>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>
+                          <Link
+                            className="w-full"
+                            href={route('perusahaan.edit', perusahaan.id)}
+                          >
+                            Edit
+                          </Link>
+                        </DropdownMenuItem>
+
+                        {canDeletePerusahaan && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <DropdownMenuItem
+                                onSelect={(e) => e.preventDefault()}
+                              >
+                                Delete
+                              </DropdownMenuItem>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Delete perusahaan
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Anda yakin ingin menghapus perusahaan ini?
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                  <Link
+                                    href={route(
+                                      'perusahaan.destroy',
+                                      perusahaan.id,
+                                    )}
+                                    method="delete"
+                                    preserveScroll
+                                  >
+                                    Delete
+                                  </Link>
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableActions>
                 </TableCell>
               </TableRow>
             ))}

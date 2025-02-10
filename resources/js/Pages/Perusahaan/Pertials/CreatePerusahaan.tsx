@@ -24,6 +24,8 @@ const CreatePerusahaan = () => {
   const { data, setData, post, processing, reset } = useForm({
     name: '',
     address: '',
+    email: '',
+    phone: '',
   });
 
   const handleSubmit = (e: FormEvent) => {
@@ -63,14 +65,24 @@ const CreatePerusahaan = () => {
           <div className="space-y-4">
             <FormControl label="Nama perusahaan">
               <Input
-                placeholder="Company name"
                 value={data.name}
                 onChange={(e) => setData('name', e.target.value)}
               />
             </FormControl>
+            <FormControl label="Email perusahaan">
+              <Input
+                value={data.email}
+                onChange={(e) => setData('email', e.target.value)}
+              />
+            </FormControl>
+            <FormControl label="Nomor telepon perusahaan">
+              <Input
+                value={data.phone}
+                onChange={(e) => setData('phone', e.target.value)}
+              />
+            </FormControl>
             <FormControl label="Alamat">
               <Textarea
-                placeholder="Company address"
                 value={data.address}
                 onChange={(e) => setData('address', e.target.value)}
               />

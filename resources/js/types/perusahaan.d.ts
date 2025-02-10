@@ -6,6 +6,7 @@ export type Perusahaan = {
   email: string;
   phone: string;
   logo: string;
+  photo: string;
   address: string;
   users?: User[];
 };

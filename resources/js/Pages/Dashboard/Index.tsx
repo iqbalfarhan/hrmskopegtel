@@ -1,16 +1,21 @@
 import Authenticated from '@/Layouts/AuthenticatedLayout';
+import { Absensi } from '@/types/absensi';
 import { Head, usePage } from '@inertiajs/react';
-import CheckInCard from './Partials/CheckInCard';
+import UserInfo from '../User/Show/Partials/UserInfo';
+import KaryawanHome from './Partials/KaryawanHome';
+import SuperadminHome from './Partials/SuperadminHome';
 
-export default function Dashboard() {
-  const user = usePage().props.auth.user;
+export default function Dashboard({ absensi }: { absensi: Absensi }) {
+  const { user, role } = usePage().props.auth;
 
   return (
     <Authenticated header="Dashboard">
       <Head title="Dashboard" />
-      <div className="flex items-center justify-center">
-        <CheckInCard user={user} />
-      </div>
+
+      <UserInfo user={user} />
+
+      {role === 'superadmin' && <SuperadminHome />}
+      {role === 'karyawan' && <KaryawanHome absensi={absensi} />}
     </Authenticated>
   );
 }

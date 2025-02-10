@@ -6,9 +6,11 @@ type MenuItemProps = {
   title: string;
   icon: ElementType;
   href: string;
+  show?: boolean;
 };
 
-const MenuItem: FC<MenuItemProps> = ({ title, icon, href }) => {
+const MenuItem: FC<MenuItemProps> = ({ title, icon, href, show = true }) => {
+  if (!show) return null;
   const Icon = icon;
   return (
     <SidebarMenu>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PerusahaanController;
@@ -18,9 +19,7 @@ Route::get('/', function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard/Index');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
 
@@ -28,7 +27,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::put('/absensi/{absensi}/checkout', [AbsensiController::class, 'checkout'])->name('absensi.checkout');
     Route::resource('/absensi', AbsensiController::class);
+
     Route::resource('/perusahaan', PerusahaanController::class);
     Route::resource('/user', UserController::class);
     Route::resource('/permission', PermissionController::class);

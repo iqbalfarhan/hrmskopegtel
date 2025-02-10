@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreAbsensiRequest;
 use App\Http\Requests\UpdateAbsensiRequest;
 use App\Models\Absensi;
+use Illuminate\Http\Request;
 
 class AbsensiController extends Controller
 {
@@ -29,9 +30,16 @@ class AbsensiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAbsensiRequest $request)
+    public function store(Request $request)
     {
-        //
+        $valid = $request->validate([
+            'user_id' => 'required',
+            'tanggal' => 'required',
+        ]);
+
+        $valid['checkin'] = now();
+
+        Absensi::create($valid);
     }
 
     /**
@@ -53,9 +61,12 @@ class AbsensiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAbsensiRequest $request, Absensi $absensi)
+    public function update(Request $request, Absensi $absensi)
     {
-        //
+        $valid = $request->get('approved');
+        $absensi->update([
+            'approved' => $valid ? true : false,
+        ]);
     }
 
     /**
@@ -63,6 +74,13 @@ class AbsensiController extends Controller
      */
     public function destroy(Absensi $absensi)
     {
-        //
+        $absensi->delete();
+    }
+
+    public function checkout(Absensi $absensi)
+    {
+        $absensi->update([
+            'checkout' => now(),
+        ]);
     }
 }

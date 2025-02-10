@@ -18,7 +18,7 @@ class UserController extends Controller
         return inertia('User/Index', [
             'roles' => Role::get(),
             'perusahaans' => Perusahaan::get(),
-            'users' => User::with(['roles', 'perusahaan'])->get(),
+            'users' => User::with(['roles', 'permissions', 'perusahaan'])->get(),
         ]);
     }
 

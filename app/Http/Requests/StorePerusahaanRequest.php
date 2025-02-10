@@ -25,6 +25,8 @@ class StorePerusahaanRequest extends FormRequest
             "name" => 'required|string|max:255',
             "address" => "required|string|max:255",
             "logo" => "string|max:255",
+            "email" => "string|max:255|email",
+            "phone" => "string|max:255",
         ];
     }
 }

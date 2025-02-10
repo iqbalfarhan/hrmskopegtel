@@ -7,5 +7,7 @@ export type Absensi = {
   checkin: DateTime;
   checkout: DateTime;
   approved: boolean;
+  completed: boolean;
+  terlambat: boolean;
   user?: User;
 };

@@ -10,9 +10,7 @@ export default function Authenticated({
   children,
   header = 'Page Header',
   actions,
-}: PropsWithChildren<{ header: string; actions?: ReactNode }>) {
-  //   const user = usePage().props.auth.user;
-
+}: PropsWithChildren<{ header?: string; actions?: ReactNode }>) {
   return (
     <ThemeProvider>
       <SidebarProvider className="scrollbar-hide">

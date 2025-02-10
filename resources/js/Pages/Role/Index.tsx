@@ -1,3 +1,4 @@
+import TableActions from '@/components/app/table-actions';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -47,52 +48,56 @@ const RoleIndex: FC<RoleIndexProps> = ({ roles }) => {
               <TableRow key={role.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{role.name}</TableCell>
-                <TableCell className="truncate">{role.description}</TableCell>
+                <TableCell>
+                  <div className="w-full max-w-lg">{role.description}</div>
+                </TableCell>
                 <TableCell>
                   <Badge>{role.permissions.length} permission</Badge>
                 </TableCell>
 
                 <TableCell className="flex flex-row justify-end">
-                  <Button variant={'secondary'} asChild>
-                    <Link href={route('role.edit', role.id)}>
-                      Edit role
-                      <ExternalLink size={16} />
-                    </Link>
-                  </Button>
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant={'ghost'} size={'icon'}>
-                        <Trash2 />
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Hapus role ini</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Hapus role mungkin akan menimbulkan masalah
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel asChild>
-                          <Button variant={'outline'}>Cancel</Button>
-                        </AlertDialogCancel>
-                        <Button variant={'destructive'} asChild>
-                          <Link
-                            href={route('role.destroy', role.id)}
-                            method="delete"
-                            onSuccess={() =>
-                              toast({
-                                description: 'Success delete role',
-                              })
-                            }
-                          >
-                            <Trash2 size={16} />
-                            Hapus role
-                          </Link>
+                  <TableActions>
+                    <Button variant={'secondary'} asChild>
+                      <Link href={route('role.edit', role.id)}>
+                        Edit role
+                        <ExternalLink size={16} />
+                      </Link>
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant={'ghost'} size={'icon'}>
+                          <Trash2 />
                         </Button>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Hapus role ini</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Hapus role mungkin akan menimbulkan masalah
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel asChild>
+                            <Button variant={'outline'}>Cancel</Button>
+                          </AlertDialogCancel>
+                          <Button variant={'destructive'} asChild>
+                            <Link
+                              href={route('role.destroy', role.id)}
+                              method="delete"
+                              onSuccess={() =>
+                                toast({
+                                  description: 'Success delete role',
+                                })
+                              }
+                            >
+                              <Trash2 size={16} />
+                              Hapus role
+                            </Link>
+                          </Button>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </TableActions>
                 </TableCell>
               </TableRow>
             ))}

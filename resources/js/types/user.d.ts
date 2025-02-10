@@ -7,6 +7,7 @@ export type User = {
   name: string;
   email: string;
   phone: string;
+  nik: string;
   perusahaan_id?: Perusahaan['id'];
   photo?: string;
   roles?: Role[];

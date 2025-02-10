@@ -1,0 +1,1 @@
+import{j as r}from"./app-BQiZwsOn.js";import{B as a}from"./badge-sWmOlzJj.js";import"./index-CVr6GsiT.js";import"./utils-9ikzy2mT.js";const s=({terlambat:t})=>r.jsx(a,{variant:t?"destructive":"default",children:t?"Terlambat":"Tepat waktu"});export{s as default};

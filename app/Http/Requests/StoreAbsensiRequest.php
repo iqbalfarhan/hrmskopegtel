@@ -22,7 +22,8 @@ class StoreAbsensiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tanggal' => 'required',
+            'checkin' => 'required',
         ];
     }
 }

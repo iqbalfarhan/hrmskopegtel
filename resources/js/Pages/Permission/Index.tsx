@@ -46,7 +46,7 @@ const PermissionIndex: FC<PermissionIndexProps> = ({ permissions }) => {
                   <DropdownMenuTrigger asChild>
                     <Button
                       variant={'ghost'}
-                      className="w-full justify-between text-lg"
+                      className="w-full justify-between"
                     >
                       {item.name}
                       <EllipsisVertical />

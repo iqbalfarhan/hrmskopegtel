@@ -33,7 +33,7 @@ const AppNavbar = () => {
         </Breadcrumb>
       </div>
       <div className="flex items-center gap-2 px-4">
-        <Button size={'icon'} variant={'ghost'}>
+        <Button size={'icon'} variant={'outline'}>
           <Link href={route('notification.index')}>
             <Bell />
           </Link>

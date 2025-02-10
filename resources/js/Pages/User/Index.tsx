@@ -1,3 +1,4 @@
+import TableActions from '@/components/app/table-actions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,7 +10,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -23,7 +23,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
-import { getInitials } from '@/lib/utils';
 import { Role } from '@/types/permission';
 import { Perusahaan } from '@/types/perusahaan';
 import { User } from '@/types/user';
@@ -32,6 +31,7 @@ import { Ellipsis, EllipsisVertical, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
 import CreateUser from './Partial/Create';
 import FilterUser from './Partial/Filter';
+import UserPopover from './Partial/UserPopover';
 
 const UserIndex = ({
   roles,
@@ -102,22 +102,9 @@ const UserIndex = ({
                     />
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-2">
-                      <Avatar>
-                        <AvatarFallback>
-                          {getInitials(user.name)}
-                        </AvatarFallback>
-                        <AvatarImage src={user.photo} alt={user.name} />
-                      </Avatar>
-                      <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">
-                          {user.name}
-                        </span>
-                        <span className="truncate text-xs">{user.email}</span>
-                      </div>
-                    </div>
+                    <UserPopover user={user} />
                   </TableCell>
-                  <TableCell>{user.phone}</TableCell>
+                  <TableCell>{user.nik}</TableCell>
                   <TableCell>{user.perusahaan?.name}</TableCell>
                   <TableCell>
                     {user.roles?.map((role) => (
@@ -126,58 +113,60 @@ const UserIndex = ({
                       </Badge>
                     ))}
                   </TableCell>
-                  <TableCell className="flex justify-end gap-2">
-                    <Button variant={'secondary'} asChild>
-                      <Link href={route('user.show', user.id)}>
-                        View user
-                        <ExternalLink />
-                      </Link>
-                    </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button size={'icon'} variant={'ghost'}>
-                          <Ellipsis />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem asChild>
-                          <Link href={route('user.edit', user.id)}>
-                            Edit user
-                          </Link>
-                        </DropdownMenuItem>
+                  <TableCell>
+                    <TableActions>
+                      <Button variant={'secondary'} asChild>
+                        <Link href={route('user.show', user.id)}>
+                          View user
+                          <ExternalLink />
+                        </Link>
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size={'icon'} variant={'ghost'}>
+                            <Ellipsis />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem asChild>
+                            <Link href={route('user.edit', user.id)}>
+                              Edit user
+                            </Link>
+                          </DropdownMenuItem>
 
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <DropdownMenuItem
-                              onSelect={(e) => e.preventDefault()}
-                            >
-                              Delete user
-                            </DropdownMenuItem>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Delete user</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                User tidak akan dihapus permanen anda dapat
-                                mengembalikan kapan saja
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction asChild>
-                                <Link
-                                  href={route('user.destroy', user.id)}
-                                  method="delete"
-                                  preserveScroll
-                                >
-                                  Delete user
-                                </Link>
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <DropdownMenuItem
+                                onSelect={(e) => e.preventDefault()}
+                              >
+                                Delete user
+                              </DropdownMenuItem>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete user</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  User tidak akan dihapus permanen anda dapat
+                                  mengembalikan kapan saja
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                  <Link
+                                    href={route('user.destroy', user.id)}
+                                    method="delete"
+                                    preserveScroll
+                                  >
+                                    Delete user
+                                  </Link>
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableActions>
                   </TableCell>
                 </TableRow>
               ))}

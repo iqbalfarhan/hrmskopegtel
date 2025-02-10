@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePerusahaanRequest;
-use App\Http\Requests\UpdatePerusahaanRequest;
 use App\Models\Perusahaan;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class PerusahaanController extends Controller
 {
@@ -13,8 +14,15 @@ class PerusahaanController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
+
         return inertia('Perusahaan/Index', [
             'perusahaans' => Perusahaan::with('users')->get(),
+            'permissions' => [
+                'canCreatePerusahaan' => $user->can('create perusahaan'),
+                'canUpdatePerusahaan' => $user->can('edit perusahaan'),
+                'canDeletePerusahaan' => $user->can('delete perusahaan'),
+            ]
         ]);
     }
 
@@ -29,9 +37,16 @@ class PerusahaanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePerusahaanRequest $request)
+    public function store(Request $request)
     {
-        Perusahaan::create($request->validated());
+        $validated = $request->validate([
+            "name" => 'required|string|max:255',
+            "address" => "required|string|max:255",
+            "logo" => "string|max:255",
+            "email" => "string|max:255|email",
+            "phone" => "string|max:255",
+        ]);
+        Perusahaan::create($validated);
     }
 
     /**
@@ -41,6 +56,8 @@ class PerusahaanController extends Controller
     {
         return inertia('Perusahaan/Show/Index', [
             'perusahaan' => Perusahaan::with('users')->find($perusahaan->id),
+            'roles' => Role::get(),
+            'users' => User::with('perusahaan')->where('perusahaan_id', $perusahaan->id)->get(),
         ]);
     }
 
@@ -49,15 +66,25 @@ class PerusahaanController extends Controller
      */
     public function edit(Perusahaan $perusahaan)
     {
-        //
+        return inertia('Perusahaan/Edit/Index', [
+            'perusahaan' => $perusahaan,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePerusahaanRequest $request, Perusahaan $perusahaan)
+    public function update(Request $request, Perusahaan $perusahaan)
     {
-        //
+        $validated = $request->validate([
+            "name" => 'required|string|max:255',
+            "address" => "required|string|max:255",
+            "logo" => "string|max:255",
+            "email" => "string|max:255|email",
+            "phone" => "string|max:255",
+        ]);
+
+        $perusahaan->update($validated);
     }
 
     /**
@@ -65,6 +92,6 @@ class PerusahaanController extends Controller
      */
     public function destroy(Perusahaan $perusahaan)
     {
-        //
+        $perusahaan->delete();
     }
 }

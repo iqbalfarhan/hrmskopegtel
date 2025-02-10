@@ -25,10 +25,20 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('admin'),
+            'perusahaan_id' => 1
         ]);
 
         $admin->assignRole('admin');
+
+        $admin = User::create([
+            'name' => 'Contoh user',
+            'email' => 'user@gmail.com',
+            'password' => bcrypt('user'),
+            'perusahaan_id' => 1
+        ]);
+
+        $admin->assignRole('karyawan');
 
         User::factory(10)->create()->each(function ($user) {
             $user->assignRole('karyawan');

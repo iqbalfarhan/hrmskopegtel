@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, HasPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'nik',
         'password',
         'perusahaan_id',
     ];
@@ -36,6 +38,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected $appends = ['photo'];
 
     /**
      * Get the attributes that should be cast.
@@ -56,5 +60,10 @@ class User extends Authenticatable
 
     public function absensis() {
         return $this->hasMany(Absensi::class);
+    }
+
+    public function getPhotoAttribute()
+    {
+        return "https://api.dicebear.com/9.x/dylan/svg?seed={$this->name}";
     }
 }

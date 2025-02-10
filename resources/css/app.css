@@ -63,17 +63,6 @@
 
 @layer base {
   :root {
-    --success: '#4effcd';
-    --success-foreground: '#4effcd';
-  }
-  .dark {
-    --success: '#4effcd';
-    --success-foreground: '#4effcd';
-  }
-}
-
-@layer base {
-  :root {
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;

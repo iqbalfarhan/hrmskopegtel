@@ -8,12 +8,9 @@ type AppHeaderProps = {
 
 const AppHeader: FC<AppHeaderProps> = ({ title, actions }) => {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between h-8">
       <CardHeader className="p-0">
         <CardTitle className="text-3xl">{title}</CardTitle>
-        {/* <CardDescription>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, quae?
-        </CardDescription> */}
       </CardHeader>
       {actions && <div className="flex gap-2">{actions}</div>}
     </div>

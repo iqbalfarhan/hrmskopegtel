@@ -16,7 +16,7 @@ const UserInfo: FC<UserInfoProps> = ({ user }) => {
     {
       icon: <LogIn />,
       label: 'Total Attendance',
-      value: user.absensis?.length,
+      value: user.absensis?.length ?? 0,
     },
     {
       icon: <Link />,
@@ -51,15 +51,15 @@ const UserInfo: FC<UserInfoProps> = ({ user }) => {
             <div className="flex flex-row gap-28">
               <div>
                 <Label className="opacity-50">Perusahaan</Label>
-                <p>{user.perusahaan?.name}</p>
+                <p>{user.perusahaan?.name ?? '-'}</p>
               </div>
               <div>
                 <Label className="opacity-50">Nomor telepon</Label>
-                <p>{user.phone}</p>
+                <p>{user.phone ?? '-'}</p>
               </div>
               <div>
                 <Label className="opacity-50">Email address</Label>
-                <p>{user.email}</p>
+                <p>{user.email ?? '-'}</p>
               </div>
             </div>
           </div>
@@ -68,7 +68,7 @@ const UserInfo: FC<UserInfoProps> = ({ user }) => {
         <div className="grid grid-cols-4 gap-4">
           {stats.map((stat, index) => {
             return (
-              <Card key={index} className="bg-background">
+              <Card key={index}>
                 <CardContent className="mt-5 flex items-center gap-4">
                   <Button
                     size={'icon'}
